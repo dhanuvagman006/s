@@ -1,10 +1,6 @@
-#8. Program to implement One-way and Two-way ANOVA tests and
-#analyze the results
-
 import pandas as pd
 import numpy as np
 from scipy import stats
-#load the sample data
 data = pd.DataFrame({
  "Group": ["A", "B", "C", "A"],
  "Values": [10, 18, 20, 15]
@@ -20,7 +16,6 @@ groupC = data[data['Group'] == 'C']['Values']
 f_stat, p_val = stats.f_oneway(groupA, groupB, groupC)
 print("F-Statistic:", f_stat)
 print("P-Value:", p_val)
-# Interpret the results
 if p_val < 0.05:
  print("Reject the null hypothesis. The means of the groups are significantly different.")
 else:
@@ -38,21 +33,17 @@ Groups2
 import pandas as pd
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
-# Fit two-way ANOVA model
 model = ols('Values ~ C(Group1) + C(Group2) + C(Group1):C(Group2)', data=data).fit()
 anova_table = sm.stats.anova_lm(model, typ=2)
 print(anova_table)
-# Print F-stat and p-value
 print("Group1:")
 print(" F-Statistic:", anova_table.loc["C(Group1)", "F"])
 print(" P-Value :", anova_table.loc["C(Group1)", "PR(>F)"])
 print("\nGroup2:")
 print(" F-Statistic:", anova_table.loc["C(Group2)", "F"])
 print(" P-Value :", anova_table.loc["C(Group2)", "PR(>F)"])
-# Extract p-values
 p_val1 = anova_table.loc["C(Group1)", "PR(>F)"]
 p_val2 = anova_table.loc["C(Group2)", "PR(>F)"]
-# Interpret the results
 if p_val1 < 0.05 and p_val2 < 0.05:
  print("Reject the null hypothesis. The means of the groups are significantly different.")
 else:

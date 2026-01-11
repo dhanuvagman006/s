@@ -1,29 +1,16 @@
-#5. Program to perform cross validation for a given dataset to
-#measure Root Mean Squared Error (RMSE), Mean Absolute Error
-#(MAE) and R2 Error using Validation Set, Leave One Out
-#Cross-Validation(LOOCV) and K-fold Cross-Validation approaches
-
-
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, cross_val_score, LeaveOneOut, KFold
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-# Create sample dataset directly in the code
 data = pd.DataFrame({
  'feature1': [1,2,3,4,5,6,7,8,9,10],
  'feature2': [2,1,3,5,7,4,6,8,9,11],
  'feature3': [5,4,6,7,9,10,12,14,13,15],
  'target': [3,4,6,7,9,11,13,15,16,18]
 })
-# -----------------------------------------------------------
-# Split data into features (X) and target (y)
-# -----------------------------------------------------------
 X = data.drop('target', axis=1)
 y = data['target']
-# -----------------------------------------------------------
-# Validation Set Approach
-# -----------------------------------------------------------
 print("Validation Set Approach")
 print("----------------------------")
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -36,9 +23,6 @@ r2 = r2_score(y_val, y_pred)
 print("RMSE:", rmse)
 print("MAE:", mae)
 print("R2 Error:", r2)
-# -----------------------------------------------------------
-# Leave-One-Out Cross-Validation (LOOCV)
-# -----------------------------------------------------------
 print("\nLeave One Out Cross-Validation (LOOCV) Approach")
 print("------------------------------------------------")
 loo = LeaveOneOut()
@@ -54,9 +38,6 @@ for train_index, val_index in loo.split(X):
 print("RMSE (LOOCV):", np.mean(rmse_loo))
 print("MAE (LOOCV):", np.mean(mae_loo))
 print("R2 Error (LOOCV):", np.mean(r2_loo))
-# -----------------------------------------------------------
-# K-Fold Cross-Validation
-# -----------------------------------------------------------
 print("\nK-fold Cross-Validation Approach")
 print("-------------------------------")
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
